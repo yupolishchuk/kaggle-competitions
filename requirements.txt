@@ -1,0 +1,10 @@
+kaggle==2.2.4
+numpy==2.5.4
+pandas==3.0.6
+matplotlib==3.11.2
+jupyter==1.1.1
+scikit-learn==1.9.1
+torch==2.14.1
+torchvision==0.29.1
+opencv-python-headless==5.0.0.93
+segmentation-models-pytorch==0.5.0
