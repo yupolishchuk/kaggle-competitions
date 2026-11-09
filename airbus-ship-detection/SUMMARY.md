@@ -1,5 +1,7 @@
 # Airbus Ship Detection — підсумок
 
+Змагання: [Airbus Ship Detection Challenge на Kaggle](https://www.kaggle.com/competitions/airbus-ship-detection)
+
 ## Задача і метрика
 
 На супутникових знімках 768×768 треба знайти кожен корабель окремо й видати його маску — це instance segmentation:
