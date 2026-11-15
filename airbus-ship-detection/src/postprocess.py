@@ -17,12 +17,16 @@ def mask_to_rles(probs, threshold=0.5, min_area=0, connectivity=8):
     probs = cv2.resize(probs.astype(np.float32), IMAGE_SHAPE[::-1], interpolation=cv2.INTER_LINEAR)
     mask = (probs > threshold).astype(np.uint8)
     n_labels, labels, stats, _ = cv2.connectedComponentsWithStats(mask, connectivity=connectivity)
-    # Мітка 0 — фон.
-    return [
-        rle_encode(labels == k)
-        for k in range(1, n_labels)
-        if stats[k, cv2.CC_STAT_AREA] >= min_area
-    ]
+    # labels — карта міток 768×768: кожен піксель має номер компоненти (0 — фон, 1, 2, ... — кораблі).
+    # n_labels рахує і фон, тому реальні компоненти мають номери від 1 до n_labels - 1.
+    ship_rles = []
+    for component_id in range(1, n_labels):
+        area = stats[component_id, cv2.CC_STAT_AREA]
+        if area < min_area:
+            continue  # занадто мала пляма — відкидаємо як шум
+        component_mask = labels == component_id  # True там, де піксель належить цій компоненті
+        ship_rles.append(rle_encode(component_mask))
+    return ship_rles
 
 
 if __name__ == "__main__":
